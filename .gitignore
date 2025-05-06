@@ -1,0 +1,7 @@
+__pycache__
+*.pyc
+*.pyo
+.env
+BDT_FINALE-token.json
+secure-connect-bdt-finale.zip
+noshare.toml
