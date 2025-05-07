@@ -47,13 +47,10 @@ def clean_data(path):
     # Create coordinate keys
     df["start_coord"] = list(zip(df["start_lat"], df["start_lng"]))
     df["end_coord"] = list(zip(df["end_lat"], df["end_lng"]))
-
-    # Fill missing values using nearby coordinates
-    for col in ["started_at", "start_station_name"]:
-        df[col] = df.groupby("start_coord")[col].transform(lambda x: x.ffill().bfill())
-
-    for col in ["ended_at", "end_station_name"]:
-        df[col] = df.groupby("end_coord")[col].transform(lambda x: x.ffill().bfill())
+    
+    # Fill station name
+    df["start_station_name"] = df.groupby("start_coord")["start_station_name"].transform(lambda x: x.ffill().bfill())
+    df["end_station_name"] = df.groupby("end_coord")["end_station_name"].transform(lambda x: x.ffill().bfill())
 
     # Drop location ID columns if they exist
     df.drop(columns=["start_station_id", "end_station_id"], errors="ignore", inplace=True)
